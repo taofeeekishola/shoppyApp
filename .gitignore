@@ -40,3 +40,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+shoppy-ui/.next/
+
+
+# Node modules
+node_modules/
+shoppy-ui/node_modules/
+shoppy-backend/node_modules/
