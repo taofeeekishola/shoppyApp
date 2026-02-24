@@ -12,11 +12,17 @@ export class AuthController {
         private readonly authService: AuthService,
     ){}
 
+    /**
+     * authenticating users and generating jwt
+     * @param user 
+     * @param response 
+     * @returns 
+     */
     @UseGuards(LocalAuthGuard)
     @Post('login')
     login(
         @CurrentUser() user:User,
-        @Res({ passthrough: true}) response: Response
+        @Res({ passthrough: true}) response: Response 
     ){
         return this.authService.login(user, response);
     }
