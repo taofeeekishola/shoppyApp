@@ -1,8 +1,10 @@
 "use server";
 
+import { jwtDecode } from "jwt-decode";
 import { FormError } from "@/app/common/form-error.interface";
 import { API_URL } from "@/app/constants/api";
 import { getErrorMessage } from "@/util/error";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export default async function login(
@@ -20,6 +22,27 @@ export default async function login(
         if(!res.ok){
             return {error: getErrorMessage(parseRes)};
         }
-    
+        
+        await setAuthCookie(res);
         redirect("/")
+}
+
+/**
+ * getting the cookier from the api response and decoding it
+ * @param response 
+ */
+const setAuthCookie = async (response: Response) => {
+    const setCookieHeader = response.headers.get("Set-Cookie");
+    if(setCookieHeader){
+        const token = setCookieHeader.split(';')[0].split('=')[1];
+        const cookieStore = await cookies();
+
+        cookieStore.set({
+            name:"Authentication",
+            value: token,
+            secure:true,
+            httpOnly: true,
+            expires: new Date(jwtDecode(token).exp! * 1000)
+        })
+    }
 }
