@@ -1,38 +1,41 @@
-"use server"
+"use server";
 
 import { API_URL } from "@/app/constants/api";
 import { getErrorMessage } from "./error";
-import { cookies } from "next/headers";
+import { headers } from "next/headers";
 
-/**
- * returns all common headers
- * @returns 
- */
-const getHeaders = () => ({
-    Cookie: cookies().toString()
-})
+const getHeaders = async () => {
+  const h = new Headers();
 
-export const post = async(path: string, formData: FormData) =>{
-    const res = await fetch(`${API_URL}/${path}`, {
-        method: "POST",
-        headers: {"Content-Type": "application/json", ...getHeaders()},
-        body: JSON.stringify(Object.fromEntries(formData)),
-    });
+  h.set("Content-Type", "application/json");
 
-    const parseRes = await res.json();
+  const reqHeaders = await headers();
+  const cookie = reqHeaders.get("cookie");
+  if (cookie) h.set("cookie", cookie);
 
-    //return an error
-    if(!res.ok){
-        return {error: getErrorMessage(parseRes)};
-    }
+  return h; 
+};
 
-    return {error:""};
-}
+export const post = async (path: string, formData: FormData) => {
+  const res = await fetch(`${API_URL}/${path}`, {
+    method: "POST",
+    headers: await getHeaders(),
+    body: JSON.stringify(Object.fromEntries(formData)),
+    cache: "no-store",
+  });
+
+  const parseRes = await res.json();
+
+  if (!res.ok) return { error: getErrorMessage(parseRes) };
+  return { error: "" };
+};
 
 export const get = async (path: string) => {
-    const res = await fetch(`${API_URL}/${path}`, {
-        headers: {...getHeaders()},
-    });
+  const res = await fetch(`${API_URL}/${path}`, {
+    headers: await getHeaders(),
+    cache: "no-store",
+  });
 
-    return res.json();
-}
+  return res.json();
+};
+ 
