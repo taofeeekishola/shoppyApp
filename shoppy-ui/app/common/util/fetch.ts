@@ -1,9 +1,10 @@
 "use server";
 
-import { API_URL } from "@/app/constants/api";
+import { API_URL } from "@/app/common/constants/api";
 import { getErrorMessage } from "./error";
 import { headers } from "next/headers";
 
+//getting the common headers when sending a request
 const getHeaders = async () => {
   const h = new Headers();
 
