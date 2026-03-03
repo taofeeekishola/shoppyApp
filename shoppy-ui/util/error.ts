@@ -1,5 +1,4 @@
 
-
 export const getErrorMessage = (response: any) => {
     if (response.message){
         if(Array.isArray(response.message)){

@@ -2,8 +2,8 @@
 
 import { FormError } from "@/app/common/interface/form-error.interface";
 import { API_URL } from "@/app/common/constants/api";
-import { getErrorMessage } from "@/app/common/util/error";
-import { post } from "@/app/common/util/fetch";
+import { getErrorMessage } from "@/util/error";
+import { post } from "@/util/fetch";
 import { redirect } from "next/navigation";
 
 /***

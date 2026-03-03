@@ -3,7 +3,7 @@
 import { jwtDecode } from "jwt-decode";
 import { FormError } from "@/app/common/interface/form-error.interface";
 import { API_URL } from "@/app/common/constants/api";
-import { getErrorMessage } from "@/app/common/util/error";
+import { getErrorMessage } from "@/util/error";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
