@@ -16,9 +16,14 @@ import MenuItem from '@mui/material/MenuItem';
 import { AuthContext } from '../auth/auth-context';
 import { useContext, useState } from 'react';
 import { routes, unauthenticatedRoutes } from '../common/constants/routes';
+import logout from '../auth/logout';
 
 
-export default function Header() {
+interface HeaderProps {
+  logout: () => Promise<void>
+}
+
+export default function Header({ logout} : HeaderProps) {
 
   //this gets the latest value of auth context set in root layout
   const isAuthenticated = useContext(AuthContext);
@@ -125,7 +130,7 @@ export default function Header() {
               </Button>
             ))}
           </Box>
-          {isAuthenticated && <Settings />}  
+          {isAuthenticated && <Settings logout={logout} />}  
           
         </Toolbar>
       </Container>
@@ -133,7 +138,7 @@ export default function Header() {
   );
 }
 
-const Settings = () =>{
+const Settings = ({logout} : HeaderProps) =>{
 
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
@@ -170,7 +175,10 @@ const Settings = () =>{
                 onClose={handleCloseUserMenu}
             >
                 
-                <MenuItem key="Logout" onClick={handleCloseUserMenu}>
+                <MenuItem key="Logout" onClick={ async () => {
+                  await logout();
+                  handleCloseUserMenu()
+                }}>
                     <Typography sx={{ textAlign: 'center' }}>Logout</Typography>
                 </MenuItem>
                
