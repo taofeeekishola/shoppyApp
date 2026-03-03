@@ -6,6 +6,8 @@ import { API_URL } from "@/app/common/constants/api";
 import { getErrorMessage } from "@/util/error";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { AUTHENTICATION_COOKIE } from "../auth-cookie";
+// import { AUTHENTICATION_COOKIE } from "./auth-cookie";
 
 export default async function login(
     _prevState: FormError, formData: FormData
@@ -38,7 +40,7 @@ const setAuthCookie = async (response: Response) => {
         const cookieStore = await cookies();
 
         cookieStore.set({
-            name:"Authentication",
+            name: AUTHENTICATION_COOKIE,
             value: token,
             secure:true,
             httpOnly: true,

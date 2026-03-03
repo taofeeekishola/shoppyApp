@@ -1,16 +1,17 @@
 import { NextRequest } from "next/server";
+import authenticated from "./app/auth/authenticated";
+import { unauthenticatedRoutes } from "./app/common/constants/routes";
 
-//routes that do not need authorization
-const unauthorizedRoutes = ["/auth/login", "/auth/signup"];
 
+//eensuring that we can only vist authenticated routes after logging in
 export function middleware(request: NextRequest){
-    const auth = request.cookies.get("Authentication")?.value;
+    
 
     //this redirects to the login page if cookie is not found and it is not the login or sign up page
     if(
-        !auth && 
-        !unauthorizedRoutes.some(route => 
-            request.nextUrl.pathname.startsWith(route)
+        !authenticated() && 
+        !unauthenticatedRoutes.some(route => 
+            request.nextUrl.pathname.startsWith(route.path)
         )
     ){
         return Response.redirect(new URL("/auth/login", request.url))
