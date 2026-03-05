@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import Grid from "@mui/material/Grid";
 import getProducts from "./actions/get-products";
 import Product from "./product";
@@ -5,6 +6,11 @@ import Product from "./product";
 //component for all the products
 export default async function Products() {
     const products = await getProducts();
+
+    //if the user is not authenticated, redirect to login
+    // if (!Array.isArray(products)) {
+    //     redirect("/auth/login");
+    // }
     
     return (
         <Grid container spacing={3}>

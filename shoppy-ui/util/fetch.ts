@@ -40,6 +40,8 @@ export const get = async <T>(path: string, tags?: string[]) => {
     next: {tags }
   });
 
-  return res.json() as T; //read more
+  const data = await res.json(); // ✅ add await here
+  console.log("API response:", data);
+  return data as T;
 };
  
