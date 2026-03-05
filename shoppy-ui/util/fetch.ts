@@ -34,10 +34,10 @@ export const post = async (path: string, formData: FormData) => {
 
 
 //retriving from the database
-export const get = async <T>(path: string) => {
+export const get = async <T>(path: string, tags?: string[]) => {
   const res = await fetch(`${API_URL}/${path}`, {
     headers: await getHeaders(),
-    cache: "no-store",
+    next: {tags }
   });
 
   return res.json() as T; //read more
