@@ -6,14 +6,9 @@ import Product from "./product";
 //component for all the products
 export default async function Products() {
     const products = await getProducts();
-
-    //if the user is not authenticated, redirect to login
-    // if (!Array.isArray(products)) {
-    //     redirect("/auth/login");
-    // }
     
     return (
-        <Grid container spacing={3}>
+        <Grid container spacing={3} sx={{height: '85vh', overflow: 'scroll'}}>
             {products.map((product) => (
                 <Grid key={product.id} size={{ xs: 12, sm: 6, lg: 4 }}>
                     <Product product={product}/>
