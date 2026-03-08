@@ -5,10 +5,13 @@ import { getErrorMessage } from "./error";
 import { headers } from "next/headers";
 
 //getting the common headers when sending a request
-const getHeaders = async () => {
+export const getHeaders = async (isJson = true) => {
   const h = new Headers();
 
-  h.set("Content-Type", "application/json");
+  //setting to true if we are sending json data
+  if (isJson) {
+    h.set("Content-Type", "application/json");
+  }
 
   const reqHeaders = await headers();
   const cookie = reqHeaders.get("cookie");
@@ -21,26 +24,26 @@ const getHeaders = async () => {
 export const post = async (path: string, formData: FormData) => {
   const res = await fetch(`${API_URL}/${path}`, {
     method: "POST",
-    headers: await getHeaders(),
+    headers: await getHeaders(true),
     body: JSON.stringify(Object.fromEntries(formData)),
-    cache: "no-store",
   });
 
   const parseRes = await res.json();
 
   if (!res.ok) return { error: getErrorMessage(parseRes) };
-  return { error: "" };
+
+  return { error: "", data: parseRes};
 };
 
 
 //retriving from the database
 export const get = async <T>(path: string, tags?: string[]) => {
   const res = await fetch(`${API_URL}/${path}`, {
-    headers: await getHeaders(),
-    next: {tags }
+    headers: await getHeaders(true),
+    next: {tags}
   });
 
-  const data = await res.json(); // ✅ add await here
+  const data = await res.json(); //add await here
   console.log("API response:", data);
   return data as T;
 };
