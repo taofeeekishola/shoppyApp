@@ -29,6 +29,10 @@ export class ProductsController {
         return this.productsService.createProduct(body, user.userId);
     }
 
+    /**
+     * function to get the uploaded image and store in public folder
+     * @param _file 
+     */
     @Post(':productId/image')
     @UseGuards(JwtAuthGuard)
     @UseInterceptors(

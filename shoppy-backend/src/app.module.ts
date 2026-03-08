@@ -4,6 +4,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LoggerModule } from 'nestjs-pino';
 import { AuthModule } from './auth/auth.module';
 import { ProductsModule } from './products/products.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 
 @Module({
@@ -27,7 +29,12 @@ import { ProductsModule } from './products/products.module';
       },
       inject : [ConfigService],
     })
-    ,ConfigModule.forRoot(),UsersModule, AuthModule, ProductsModule],
+    ,ConfigModule.forRoot(),
+    UsersModule, 
+    AuthModule, ProductsModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(process.cwd(), 'public')
+    }),],
   controllers: [],
   providers: [],
 })
