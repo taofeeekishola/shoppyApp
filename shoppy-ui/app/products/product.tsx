@@ -16,7 +16,7 @@ export default function Product({product }: ProductProps) {
                 {
                     product.imageExists && (
                         <Image 
-                            src={`${API_URL}/products/${product.id}.jpg`}
+                            src={`${API_URL}/images/products/${product.id}.jpg`}
                             width="0"
                             height="0"
                             className="w-full h-auto"
