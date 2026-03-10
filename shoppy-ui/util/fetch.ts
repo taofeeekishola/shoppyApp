@@ -21,11 +21,14 @@ export const getHeaders = async (isJson = true) => {
 };
 
 //posting to the database
-export const post = async (path: string, formData: FormData) => {
+export const post = async (path: string, data: FormData | object) => {
+  //checking if data is formdata or object
+  const body = data instanceof FormData ? Object.fromEntries(data) : data;
+
   const res = await fetch(`${API_URL}/${path}`, {
     method: "POST",
     headers: await getHeaders(true),
-    body: JSON.stringify(Object.fromEntries(formData)),
+    body: JSON.stringify(body),
   });
 
   const parseRes = await res.json();
