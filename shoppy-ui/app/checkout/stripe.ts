@@ -2,14 +2,13 @@ import {loadStripe} from "@stripe/stripe-js"
 import type { Stripe } from "@stripe/stripe-js"
 
 //intialising the stripe client
-let stripePromise: Promise<Stripe | null>;
+let stripePromise: Stripe | null = null;
 
-const getStripe =  () =>{
+const getStripe =  async () =>{
     if (!stripePromise) {
-        stripePromise =  loadStripe(
+            stripePromise =  await loadStripe(
             process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY! //provided by runtime
         );
-        console.log("Calling....")
     }
 
     return stripePromise;

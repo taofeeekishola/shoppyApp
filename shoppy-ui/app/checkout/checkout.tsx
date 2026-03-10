@@ -8,6 +8,11 @@ interface CheckoutProps {
     productId: number
 }
 
+/**
+ * this takes the user to the stripe checkout page
+ * @param param0 
+ * @returns 
+ */
 export default function Checkout({ productId }: CheckoutProps){
 
     const handleCheckout = async () =>{
