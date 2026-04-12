@@ -23,4 +23,14 @@ export class CheckoutController {
     ){
         return this.checkoutService.createSession(request.productId)
     }
+
+    /**
+     * function to access the stripe webhook
+     * @param event 
+     * @returns 
+     */
+    @Post('webhook')
+    async handleCheckoutWebhooks(@Body() event: any){
+        return this.checkoutService.handleCheckoutWebhooks(event)
+    }
 }
