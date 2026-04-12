@@ -40,7 +40,13 @@ export class CheckoutService {
         })
     }
 
+    /**
+     * function to check for the status of the product and update the database
+     * @param event 
+     * @returns 
+     */
     async handleCheckoutWebhooks(event: any){
+        //checking for only checkout session
         if(event.type !== 'checkout.session.completed'){
             return;
         }
