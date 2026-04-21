@@ -31,8 +31,12 @@ export class ProductsService {
      * fucntion to get products
      * @returns 
      */
-    async getProducts(){
-        const products = await this.prismaService.product.findMany();
+    async getProducts(status?: string){
+        const args: Prisma.ProductFindManyArgs = {};
+        if(status === 'avaliable'){
+            args.where = {sold: false};
+        }
+        const products = await this.prismaService.product.findMany(args);
         
         //
         return Promise.all(
