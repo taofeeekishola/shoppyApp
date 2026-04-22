@@ -4,23 +4,36 @@ import { Product as IProduct } from "./interface/product.interface";
 import Grid from "@mui/material/Grid";
 import Product from "./product";
 import { useEffect } from "react";
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 import { API_URL } from "../common/constants/api";
 import revalidateProducts from "./actions/revalidate-products";
 
+
 interface ProductGridProps{
     products: IProduct[];
+    isAuthenticated: boolean;
 }
 
 
-export default function ProductsGrid({ products }: ProductGridProps){
-
+export default function ProductsGrid({ products, isAuthenticated }: ProductGridProps){
+    
     useEffect(() =>{
-        const socket = io(API_URL!);
+        let socket: Socket
 
-        socket.on('productUpdated', () =>{
-            revalidateProducts();
-        });
+        const createSocket = async () =>{
+            socket = io(API_URL!,{
+                auth: {
+                    Authentication: isAuthenticated,
+                }
+            });
+
+            socket.on('productUpdated', () =>{
+                revalidateProducts();
+            });
+        }
+
+        createSocket();
+        
 
         return () => {
             socket?.disconnect();

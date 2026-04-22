@@ -13,10 +13,13 @@ export const getHeaders = async (isJson = true) => {
     h.set("Content-Type", "application/json");
   }
 
-  const reqHeaders = await headers();
-  const cookie = reqHeaders.get("cookie");
-  if (cookie) h.set("cookie", cookie);
+  try{
+    const reqHeaders = await headers();
+    const cookie = reqHeaders.get("cookie");
+    if (cookie) h.set("cookie", cookie);
+  }catch{
 
+  }
   return h; 
 };
 

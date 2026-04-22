@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import authenticated from "./app/auth/authenticated";
+import authenticated from "./app/auth/actions/authenticated";
 import { unauthenticatedRoutes } from "./app/common/constants/routes";
 
 //ensuring that we can only vist authenticated routes after logging in
